@@ -14,6 +14,7 @@ export default function Editor({ currentNote, updateNote }) {
 
 	return (
 		<section className="pane editor">
+
 			<ReactMde
 				value={currentNote.body}
 				onChange={updateNote}
@@ -25,6 +26,7 @@ export default function Editor({ currentNote, updateNote }) {
 				minEditorHeight={80}
 				heightUnits="vh"
 			/>
+
 		</section>
 	)
 }

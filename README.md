@@ -10,7 +10,9 @@ This is a solution to the [Notes App project on Scrimba](https://scrimba.com/lea
 - Delete notes
 
 ### Screenshot
-<img src="src/images/project-thumbnail.png" width="70%"/>
+<img src="src/images/screenshot1.png" width="70%"/>
+
+<img src="src/images/screenshot2.png" width="70%"/>
 
 ### Getting Started with Create React App
 

@@ -16,10 +16,19 @@ import { nanoid } from "nanoid"
  */
 
 export default function App() {
-  const [notes, setNotes] = React.useState([])
-  const [currentNoteId, setCurrentNoteId] = React.useState(
-    (notes[0] && notes[0].id) || ""
-  )
+
+  const [notes, setNotes] = React.useState(
+    () => JSON.parse(localStorage.getItem("notes")) || [])
+
+  const [currentNoteId, setCurrentNoteId] = React.useState(() => {
+    console.log("set currentNote Id", notes[0].id);
+    return (notes[0] && notes[0].id) || ""
+  })
+
+  React.useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
 
   function createNewNote() {
     const newNote = {
@@ -28,14 +37,30 @@ export default function App() {
     }
     setNotes(prevNotes => [newNote, ...prevNotes])
     setCurrentNoteId(newNote.id)
+
   }
 
   function updateNote(text) {
-    setNotes(oldNotes => oldNotes.map(oldNote => {
-      return oldNote.id === currentNoteId
-        ? { ...oldNote, body: text }
-        : oldNote
-    }))
+    // this doesnt not re-arrange 
+    // setNotes(oldNotes => oldNotes.map(oldNote => {
+    //   return oldNote.id === currentNoteId
+    //     ? { ...oldNote, body: text }
+    //     : oldNote
+    // }))
+
+    // Put the most recently-modified note at the top
+    setNotes(oldNotes => {
+      const newArray = []
+      for (let i = 0; i < oldNotes.length; i++) {
+        const oldNote = oldNotes[i]
+        if (oldNote.id === currentNoteId) {
+          newArray.unshift({ ...oldNote, body: text })
+        } else {
+          newArray.push(oldNote)
+        }
+      }
+      return newArray
+    })
   }
 
   function findCurrentNote() {
@@ -44,6 +69,15 @@ export default function App() {
     }) || notes[0]
   }
 
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    console.log("Deleted note Id = ", noteId);
+    // Your code here
+    setNotes(oldNotes => oldNotes.filter(oldNote => {
+      return oldNote.id !== noteId
+    }))
+    console.log("Current note id", currentNoteId);
+  }
   return (
     <main>
       {
@@ -56,6 +90,7 @@ export default function App() {
           >
             <Sidebar
               notes={notes}
+              deleteNote={deleteNote}
               currentNote={findCurrentNote()}
               setCurrentNoteId={setCurrentNoteId}
               newNote={createNewNote}
