@@ -21,7 +21,7 @@ export default function App() {
     () => JSON.parse(localStorage.getItem("notes")) || [])
 
   const [currentNoteId, setCurrentNoteId] = React.useState(() => {
-    console.log("set currentNote Id", notes[0].id);
+    //console.log("set currentNote Id", notes[0].id);
     return (notes[0] && notes[0].id) || ""
   })
 
