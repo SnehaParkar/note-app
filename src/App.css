@@ -242,7 +242,7 @@ button:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: whitesmoke;
+  background-color: var(--clr-dark-sidebar-color);
 }
 
 /* FOOTER */
